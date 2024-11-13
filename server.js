@@ -17,6 +17,7 @@ app.use(cors({
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 
 // Example defining a route in Express
 app.get('/', (req, res) => {
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 
 //writing to supabase table spash_email_signups
 app.post('/splash-email-signups', async (req, res) => {
+    console.log("this is the req.body", req.body)
     const { email } = req.body;
     if (!email) {
         return res.status(400).json({ error: 'Email is required' });
