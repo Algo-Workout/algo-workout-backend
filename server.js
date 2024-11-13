@@ -35,7 +35,9 @@ app.post('/splash-email-signups', async (req, res) => {
     // Insert the email into Supabase table
     const { data, error } = await supabase
         .from('splash_email_signups')
-        .insert([{ email }]);
+        .insert({ 
+            email: email
+        });
 
     if (error) {
         return res.status(400).json({ error: error.message });
