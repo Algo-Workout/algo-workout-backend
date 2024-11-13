@@ -26,8 +26,13 @@ app.get('/', (req, res) => {
 
 //writing to supabase table spash_email_signups
 app.post('/splash-email-signups', async (req, res) => {
-    console.log("this is the req.body", req.body)
-    const { email } = req.body;
+    console.log(
+        "req.body",req.body
+    )
+    const firstName = req.body.firstName;
+    const email = req.body.email;
+    console.log('firstName', firstName)
+    console.log('email', email)
     if (!email) {
         return res.status(400).json({ error: 'Email is required' });
     }
@@ -36,7 +41,8 @@ app.post('/splash-email-signups', async (req, res) => {
     const { data, error } = await supabase
         .from('splash_email_signups')
         .insert({ 
-            email: email
+            email: email,
+            name: firstName,
         });
 
     if (error) {
