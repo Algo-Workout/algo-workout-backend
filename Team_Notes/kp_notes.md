@@ -1,3 +1,0 @@
-# Backend notes
-
-- testing
