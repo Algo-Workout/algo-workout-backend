@@ -29,3 +29,7 @@ TypeError: Unknown file extension ".ts" for /Users/pastryavenger/Work_Projects/a
 - Update "dev" script to `nodemon --watch src --ext ts --exec \"node --loader ts-node/esm\" src/server.ts`.
 
 The `--loader` flag in Node.js specifies a cusom module loader that can modify how files are resolved, parsed, or transformed before being executed. It allows node's support for **ECMAScript Modules (ESM)** and handle file extensions like typescript `.ts` or JSX `.jsx`.
+
+
+### Notes for standups
+- Create a route to respond with all accounts from the splash_email_signups table

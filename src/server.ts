@@ -1,18 +1,10 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import supabase from './utils/supabaseClient.ts';
+import splashRoutes from './routes/splash.routes.ts';
 
 const app = express();
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-
-// Ensure environment variables are defined
-if (!supabaseUrl || !supabaseKey) {
-    throw new Error('Missing Supabase environment variables');
-}
-
-const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey)
 
 // Allow requests from http://localhost:8080
 app.use(cors({
@@ -24,6 +16,10 @@ app.use(cors({
 // Middleware to parse JSON request bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
+
+// Routes for user table
+app.use('/splash', splashRoutes);
+
 
 // Example defining a route in Express
 app.get('/', (req: Request, res: Response) => {
@@ -39,6 +35,9 @@ app.post('/splash-email-signups', async (req: Request, res: Response): Promise<v
     // const email = req.body.email;
     // console.log('firstName', firstName)
     // console.log('email', email)
+    console.log('LINE 38!!!');
+    console.log('Supabase URL:', process.env.SUPABASE_URL);
+
     try{
         console.log('Incoming POST request to /splash-email-signups with body:', req.body);
         const { firstName, email } = req.body;
@@ -70,6 +69,28 @@ app.post('/splash-email-signups', async (req: Request, res: Response): Promise<v
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+app.get('/test-supabase', async (req: Request, res: Response): Promise<void> => {
+    try {
+        console.log('Testing connection to Supabase...');
+        const { data, error } = await supabase
+            .from('splash_email_signups') // Ensure this any table from supabase
+            .select('*');
+
+        if (error) {
+            console.error('Supabase error:', error);
+            res.status(400).json({ error: error.message })
+            return;
+        }
+
+        console.log('Fetched data:', data);
+        res.status(200).json({ data });
+    } catch (err) {
+        console.error('LINE 89!!!! Unexpected error during Supabase test: ', err);
+        res.status(500).json({ error: `Internal server error: ${err}` });
+    }
+});
+
 
 
 // Example specifying the port and starting the server
