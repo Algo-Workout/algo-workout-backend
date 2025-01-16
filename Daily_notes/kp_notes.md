@@ -33,3 +33,19 @@ The `--loader` flag in Node.js specifies a cusom module loader that can modify h
 
 ### Notes for standups
 - Create a route to respond with all accounts from the splash_email_signups table
+
+### 1/15/25
+-Re-factored existing routes to clean up the `server.ts` file. 
+-Researched required routes for exisiting data tables:
+```
+High Priority Routes:
+    Algorithms (GET, POST, PUT, DELETE)
+    Submissions (GET, POST)
+    Users (GET, POST, PUT, DELETE)
+
+Lower Priority Routes:
+    Categories (GET)
+    Splash Email Signups (GET, POST)
+```
+
+- Need to validate `/splash-emails-count` route in postman.
